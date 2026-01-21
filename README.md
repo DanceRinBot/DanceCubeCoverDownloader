@@ -1,0 +1,2 @@
+# DanceCubeCoverDownloader
+用于获取舞立方官谱封面的工具

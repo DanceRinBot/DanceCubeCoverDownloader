@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.Downloader;
 
 import com.google.gson.Gson;
@@ -73,18 +68,15 @@ public class Downloader {
     }
 
     private static void patcher() {
-        if (!networkCheck()) {
-            System.err.println("Network Error");
-        } else {
             try {
                 Iterator var0 = MUSIC_INDEX_LIST.iterator();
 
                 while(var0.hasNext()) {
                     Integer musicIndex = (Integer)var0.next();
-                    boolean hasDataForCurrentIndex = false;
+                    boolean hasDataForCurrentIndex;
                     System.out.println("Processing Index: " + musicIndex);
 
-                    for(int page = 1; page <= 35; ++page) {
+                    for(int page = 1; page <= 50; ++page) {
                         String url = String.format("https://dancedemo.shenghuayule.com/Dance/api/User/GetMusicRankingNew?musicIndex=%s&page=%d&pagesize=20", musicIndex, page);
                         System.out.println("Patching " + url);
 
@@ -92,7 +84,7 @@ public class Downloader {
                             HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
                             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(30L)).header("User-Agent", "Mozilla/5.0").GET().build();
                             HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-                            hasDataForCurrentIndex = processApiResponse((String)response.body());
+                            hasDataForCurrentIndex = processApiResponse(response.body());
                             if (!hasDataForCurrentIndex) {
                                 System.out.println("Index" + musicIndex + "Page" + page + "No data,Skipping");
                                 break;
@@ -116,27 +108,8 @@ public class Downloader {
                 System.err.println("Run Failed: " + var11.getMessage());
                 var11.printStackTrace();
             }
-
-        }
-    }
-
-    private static boolean networkCheck() {
-        try {
-            HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://www.baidu.com")).timeout(Duration.ofSeconds(10L)).header("User-Agent", "Mozilla/5.0").GET().build();
-            HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                System.out.println("Network OK");
-                return true;
-            }
-
-            System.err.println("Network Error,Status Code: " + response.statusCode());
-        } catch (Exception var3) {
-            System.err.println("Network Error: " + var3.getMessage());
         }
 
-        return false;
-    }
 
     private static boolean processApiResponse(String jsonResponse) {
         boolean hasData = false;
