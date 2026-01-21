@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.DanceRinBot'
+version = '1.0'
+
+repositories {
+    maven {
+        url 'https://maven.aliyun.com/repository/public/'
+    }
+    maven {
+        url 'https://maven.aliyun.com/repository/central'
+    }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.1.0'
+    // Source: https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    implementation 'org.junit.jupiter:junit-jupiter-api:6.0.2'
+    implementation 'com.google.code.gson:gson:2.13.2'
+    // Source: https://mvnrepository.com/artifact/junit/junit
+    implementation 'junit:junit:4.13.2'
+    implementation 'junit:junit:4.13.1'
+}
+
+test {
+    useJUnitPlatform()
+}
